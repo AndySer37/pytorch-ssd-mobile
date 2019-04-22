@@ -124,7 +124,7 @@ URL: https://storage.googleapis.com/models-hao/vgg16-ssd-mp-0_7726.pth
 
 ```
 Average Precision Per-class:
-aeroplane: 0.7957406334737802
+aeroplane: 0.7957406334737802i
 bicycle: 0.8305351156180996
 bird: 0.7570969203281721
 boat: 0.7043869846367731
@@ -187,7 +187,7 @@ Before you start you can try the demo.
 ```bash
 wget -P models https://storage.googleapis.com/models-hao/gun_model_2.21.pth
 wget -P models https://storage.googleapis.com/models-hao/open-images-model-labels.txt
-python run_ssd_example.py mb1-ssd models/gun_model_2.21.pth models/open-images-model-labels.txt ~/Downloads/big.JPG
+python3 run_ssd_example.py mb2-ssd-lite models/subt/Epoch-19-Loss-1.1557.pth models/voc-model-labels.txt ~/data/subt_real/image/drill/scene000009/1.jpg
 ```
 
 ![Example of Gun Detection](gun.jpg)
