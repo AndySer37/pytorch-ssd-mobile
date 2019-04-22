@@ -3,6 +3,10 @@
 
 import torch
 from torchvision import transforms
+import sys
+ros_path = '/opt/ros/kinetic/lib/python2.7/dist-packages'
+if ros_path in sys.path:
+    sys.path.remove(ros_path)
 import cv2
 import numpy as np
 import types
@@ -340,6 +344,7 @@ class Expand(object):
         image = expand_image
 
         boxes = boxes.copy()
+        #print (boxes, left, top)
         boxes[:, :2] += (int(left), int(top))
         boxes[:, 2:] += (int(left), int(top))
 
