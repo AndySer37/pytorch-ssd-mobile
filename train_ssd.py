@@ -72,7 +72,7 @@ parser.add_argument('--scheduler', default="multi-step", type=str,
                     help="Scheduler for SGD. It can one of multi-step and cosine")
 
 # Params for Multi-step Scheduler
-parser.add_argument('--milestones', default="80,100", type=str,
+parser.add_argument('--milestones', default="60,120,160,190", type=str,
                     help="milestones for MultiStepLR")
 
 # Params for Cosine Annealing
@@ -82,11 +82,11 @@ parser.add_argument('--t_max', default=120, type=float,
 # Train params
 parser.add_argument('--batch_size', default=32, type=int,
                     help='Batch size for training')
-parser.add_argument('--num_epochs', default=120, type=int,
+parser.add_argument('--num_epochs', default=500, type=int,
                     help='the number epochs')
-parser.add_argument('--num_workers', default=4, type=int,
+parser.add_argument('--num_workers', default=10, type=int,
                     help='Number of workers used in dataloading')
-parser.add_argument('--validation_epochs', default=5, type=int,
+parser.add_argument('--validation_epochs', default=10, type=int,
                     help='the number epochs')
 parser.add_argument('--debug_steps', default=100, type=int,
                     help='Set the debug log output frequency.')
@@ -326,6 +326,13 @@ if __name__ == '__main__':
                 "Validation Regression Loss {:.4f}, ".format(val_regression_loss) +
                 "Validation Classification Loss: {:.4f}".format(val_classification_loss)
             )
-            model_path = os.path.join(args.checkpoint_folder, "subt/Epoch-{}-Loss-{:.4f}.pth".format(epoch, val_loss))
+
+            if args.net == 'mb1-ssd':
+                model_path = os.path.join(args.checkpoint_folder, "subt_v1/Epoch-{}-Loss-{:.4f}.pth".format(epoch, val_loss))
+            elif args.net == 'mb1-ssd-lite':
+                model_path = os.path.join(args.checkpoint_folder, "subt_v1_lite/Epoch-{}-Loss-{:.4f}.pth".format(epoch, val_loss))
+            elif args.net == 'mb2-ssd-lite':
+                model_path = os.path.join(args.checkpoint_folder, "subt_v2_lite/Epoch-{}-Loss-{:.4f}.pth".format(epoch, val_loss))
+            
             net.save(model_path)
             logging.info("Saved model {}".format(model_path))
