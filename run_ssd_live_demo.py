@@ -72,7 +72,7 @@ while True:
         continue
     image = cv2.cvtColor(orig_image, cv2.COLOR_BGR2RGB)
     timer.start()
-    boxes, labels, probs = predictor.predict(image, 10, 0.8)
+    boxes, labels, probs = predictor.predict(image, 10, 0.4)
     interval = timer.end()
     print('FPS: {:.2f}, Detect Objects: {:d}.'.format(1./interval, labels.size(0)))
     for i in range(boxes.size(0)):
