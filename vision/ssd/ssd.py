@@ -1,7 +1,7 @@
 import torch.nn as nn
 import torch
 import numpy as np
-from typing import List, Tuple
+#from typing import List, Tuple
 import torch.nn.functional as F
 
 from ..utils import box_utils
@@ -10,9 +10,9 @@ GraphPath = namedtuple("GraphPath", ['s0', 'name', 's1'])  #
 
 
 class SSD(nn.Module):
-    def __init__(self, num_classes: int, base_net: nn.ModuleList, source_layer_indexes: List[int],
-                 extras: nn.ModuleList, classification_headers: nn.ModuleList,
-                 regression_headers: nn.ModuleList, is_test=False, config=None, device=None):
+    def __init__(self, num_classes, base_net, source_layer_indexes,
+                 extras, classification_headers,
+                 regression_headers, is_test=False, config=None, device=None):
         """Compose a SSD model using the given components.
         """
         super(SSD, self).__init__()
@@ -37,7 +37,7 @@ class SSD(nn.Module):
             self.config = config
             self.priors = config.priors.to(self.device)
             
-    def forward(self, x: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
+    def forward(self, x):
         confidences = []
         locations = []
         start_layer_index = 0
@@ -158,6 +158,6 @@ class MatchPrior(object):
         return locations, labels
 
 
-def _xavier_init_(m: nn.Module):
+def _xavier_init_(m):
     if isinstance(m, nn.Conv2d):
         nn.init.xavier_uniform_(m.weight)
