@@ -8,7 +8,6 @@ import math
 
 def conv_bn(inp, oup, stride, use_batch_norm=True, onnx_compatible=False):
     ReLU = nn.ReLU if onnx_compatible else nn.ReLU6
-
     if use_batch_norm:
         return nn.Sequential(
             nn.Conv2d(inp, oup, 3, stride, 1, bias=False),
@@ -45,7 +44,7 @@ class InvertedResidual(nn.Module):
         self.stride = stride
         assert stride in [1, 2]
 
-        hidden_dim = round(inp * expand_ratio)
+        hidden_dim = int(round(inp * expand_ratio))
         self.use_res_connect = self.stride == 1 and inp == oup
 
         if expand_ratio == 1:
