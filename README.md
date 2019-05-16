@@ -157,7 +157,7 @@ python train_ssd.py --datasets ~/data/VOC0712/VOC2007/ ~/data/VOC0712/VOC2012/ -
 
 ```bash
 wget -P models https://storage.googleapis.com/models-hao/mobilenet_v1_with_relu_69_5.pth
-python train_ssd.py --datasets ~/data/VOC0712/VOC2007/ ~/data/VOC0712/VOC2012/ --validation_dataset ~/data/VOC0712/test/VOC2007/ --net mb1-ssd --base_net models/mobilenet_v1_with_relu_69_5.pth  --batch_size 24 --num_epochs 200 --scheduler cosine --lr 0.01 --t_max 200
+python3 train_ssd.py --dataset_type vimo_gesture --datasets ~/data/vimo_demo/ --validation_dataset ~/data/vimo_demo/ --net mb1-ssd --base_net models/mobilenet_v1_with_relu_69_5.pth --lr 0.01 --validation_epochs 10 --num_epochs 200
 ```
 
 
