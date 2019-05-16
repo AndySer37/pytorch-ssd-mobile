@@ -1,0 +1,6 @@
+BACKGROUND
+person
+palm
+finger_one
+finger_two
+finger_three

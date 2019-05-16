@@ -17,6 +17,7 @@ from vision.ssd.mobilenet_v2_ssd_lite import create_mobilenetv2_ssd_lite
 from vision.ssd.squeezenet_ssd_lite import create_squeezenet_ssd_lite
 from vision.datasets.subt_dataset import SubtDataset
 from vision.datasets.open_images import OpenImagesDataset
+from vision.datasets.vimo_gesture import vimo_gestureDataset
 from vision.nn.multibox_loss import MultiboxLoss
 from vision.ssd.config import vgg_ssd_config
 from vision.ssd.config import mobilenetv1_ssd_config
@@ -202,7 +203,13 @@ if __name__ == '__main__':
         if args.dataset_type == 'subt':
             dataset = SubtDataset(dataset_path, transform=train_transform,
                                  target_transform=target_transform)
-            label_file = os.path.join(args.checkpoint_folder, "voc-model-labels.txt")
+            label_file = os.path.join(args.checkpoint_folder, "subt.txt")
+            store_labels(label_file, dataset.class_names)
+            num_classes = len(dataset.class_names)
+        elif args.dataset_type == 'vimo_gesture':
+            dataset = vimo_gestureDataset(dataset_path, transform=train_transform,
+                                 target_transform=target_transform)
+            label_file = os.path.join(args.checkpoint_folder, "vimo_gesture.txt")
             store_labels(label_file, dataset.class_names)
             num_classes = len(dataset.class_names)
         elif args.dataset_type == 'open_images':
@@ -226,6 +233,9 @@ if __name__ == '__main__':
     logging.info("Prepare Validation datasets.")
     if args.dataset_type == "subt":
         val_dataset = SubtDataset(args.validation_dataset, transform=test_transform,
+                                 target_transform=target_transform, is_test=True)
+    elif args.dataset_type == "vimo_gesture":
+        val_dataset = vimo_gestureDataset(args.validation_dataset, transform=test_transform,
                                  target_transform=target_transform, is_test=True)
     elif args.dataset_type == 'open_images':
         val_dataset = OpenImagesDataset(dataset_path,
@@ -333,6 +343,6 @@ if __name__ == '__main__':
                 model_path = os.path.join(args.checkpoint_folder, "subt_v1_lite/Epoch-{}-Loss-{:.4f}.pth".format(epoch, val_loss))
             elif args.net == 'mb2-ssd-lite':
                 model_path = os.path.join(args.checkpoint_folder, "subt_v2_lite/Epoch-{}-Loss-{:.4f}.pth".format(epoch, val_loss))
-            
+            model_path = os.path.join(args.checkpoint_folder, "gesture_ssdv1/Epoch-{}-Loss-{:.4f}.pth".format(epoch, val_loss))
             net.save(model_path)
             logging.info("Saved model {}".format(model_path))
